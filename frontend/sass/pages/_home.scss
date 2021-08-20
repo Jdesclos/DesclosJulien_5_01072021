@@ -1,0 +1,62 @@
+.contain {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 2rem 1.5rem;
+  & .error {
+    color: red;
+    font-size: map-get($map: $font_size, $key: card_title);
+    text-align: center;
+    width: 100%;
+  }
+  & .card {
+    @include flex_column;
+    max-width: 410px;
+    margin: 20px;
+    background-color: #fff;
+    box-shadow: 5px 5px 5px #dcdcdc;
+    border-radius: 15px;
+    transition: all 0.5s ease-in-out;
+    &:hover {
+      transform: scale(1.1);
+    }
+    &__img {
+      width: 410px;
+      height: 265px;
+      & img {
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+        border-top-right-radius: 15px;
+        border-top-left-radius: 15px;
+      }
+    }
+    &__caption {
+      display: inline-block;
+      align-items: center;
+      width: 95%;
+      padding: 10px;
+      & h2 {
+        display: block;
+        font-size: map-get($map: $font_size, $key: card_title);
+      }
+      & .desc_price {
+        align-items: center;
+        display: flex;
+      }
+      & p {
+        display: inline-block;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        width: 79%;
+        font-size: map-get($map: $font_size, $key: card_desc);
+      }
+      & span {
+        display: inline-block;
+        width: 19%;
+        text-align: end;
+        font-size: map-get($map: $font_size, $key: card_price);
+      }
+    }
+  }
+}

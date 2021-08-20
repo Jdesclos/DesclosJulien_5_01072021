@@ -1,0 +1,39 @@
+.header {
+  @include flex_row;
+  justify-content: space-between;
+  align-items: center;
+  &__title > a,
+  h1 {
+    font-family: 'Pacifico', cursive;
+    font-size: map-get($map: $font_size, $key: head_title);
+  }
+  &__search {
+    flex: 1;
+    padding-left: 20px;
+    padding-right: 20px;
+    position: relative;
+    & input {
+      width: 100%;
+    }
+    & button {
+      position: absolute;
+      right: 20px;
+    }
+  }
+  &__nav {
+    & ul {
+      display: flex;
+      justify-content: flex-end;
+      & li {
+        margin-right: 50px;
+        font-size: map-get($map: $font_size, $key: head_nav);
+        & a {
+          transition: all 0.5s ease-in-out;
+        }
+        &:hover a {
+          color: #fff;
+        }
+      }
+    }
+  }
+}

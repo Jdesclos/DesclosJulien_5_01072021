@@ -1,0 +1,30 @@
+footer {
+  background-color: #f5f5f5;
+  @include flex_row;
+  justify-content: space-around;
+  & .foot_case {
+    @include flex_column;
+    & h2 {
+      font-size: map-get($map: $font_size, $key: foot_title);
+      & a {
+        transition: all 0.5s ease-in-out;
+      }
+      &:hover a {
+        color: #f4eae8;
+      }
+    }
+    & ul {
+      padding: 0px;
+      & li {
+        margin-top: 10px;
+        font-size: map-get($map: $font_size, $key: foot_li);
+        & a {
+          transition: all 0.5s ease-in-out;
+        }
+        &:hover a {
+          color: #f4eae8;
+        }
+      }
+    }
+  }
+}

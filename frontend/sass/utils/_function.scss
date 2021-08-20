@@ -1,0 +1,17 @@
+@keyframes slide_in {
+  0% {
+    transform: translateX(50%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+@keyframes fill_green {
+  0% {
+    background-size: 0% 1000%;
+  }
+  100% {
+    background-size: 100% 100%;
+    background: green;
+  }
+}

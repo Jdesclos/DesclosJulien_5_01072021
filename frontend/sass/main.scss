@@ -1,0 +1,9 @@
+@import 'utils/variables';
+@import 'utils/function';
+@import 'utils/mixin';
+@import 'base/base.scss';
+@import './component/btn.scss'; //1.Utils(Variables-Fonction-Mixins-Placeholder) 2.Vendors 3.base 4.composants 5.layout 6.pages 7.thèmes
+@import './layout/header.scss';
+@import './layout/footer';
+@import './pages/home';
+@import './pages/_product-page.scss';
