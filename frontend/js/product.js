@@ -3,7 +3,7 @@ let id = params.get("id");
 let title = document.querySelector(`title`);
 let accueil = document.querySelector('header a');
 let contain_product = document.querySelector(".contain_product");
-fetch(`http://localhost:3000/api/teddies/${id}`) //méthode fetch pour récupérer l'api
+fetch(`http://localhost:3000/api/teddies/${id}`) //méthode fetch pour récupérer l'api mais de l'item qui nous interresse
 .then(response => response.json()//conversion en json
 .then (data =>{
         let colors = ""
@@ -35,6 +35,7 @@ fetch(`http://localhost:3000/api/teddies/${id}`) //méthode fetch pour récupér
     </div>
     <div class="success"></div>
     `;
+    //titre onglet dynamique selon le produit
     title.innerText = `Oribear_${data.name}`;
     let select = document.querySelector("#option select");
     let color = document.querySelector("#option select").options[select.selectedIndex].value;
@@ -47,33 +48,39 @@ fetch(`http://localhost:3000/api/teddies/${id}`) //méthode fetch pour récupér
     let inputQty = document.querySelector("#option input");
     let qty = 1;
     inputQty.addEventListener("change",(event) => {
-        qty = inputQty.value;
+        qty = parseFloat(inputQty.value);
     })
     let envoiePanier = document.querySelector(".card_product__price a");
     let ajout = document.querySelector(".success");
     envoiePanier.addEventListener("click", (e) => {
         e.preventDefault();
+        let prixTotal = data.price * qty;
         let infoProduit = {
                 nomProduit: data.name,
                 idProduit: data._id,
                 prixProduit: data.price /100,
                 qtyProduit: qty,
+                prixTotal: prixTotal,
         };
+        //message de confirmation d'ajout au panier
         ajout.innerText = "Votre article a bien été ajouté au panier";
         setTimeout(()=>{ajout.innerText = ""},3000);
+        //ajout de l'item du localStorage "obj" dans une variable "produit"
         let produitEnregistre = JSON.parse(localStorage.getItem("produit"));
-        const ajoutProduitLocalStorage = (() =>{
-                if(infoProduit.idProduit == localStorage.idProduit) {
-                        produitEnregistre.qtyProduit = localStorage.qtyProduit + infoProduit.qtyProduit
-                }
-                else{
+        //fonction pour ajouter les elements d'infoProduit dans le local storage
+        const ajoutProduitLocalStorage = (() =>{               
                 produitEnregistre.push(infoProduit);
                 localStorage.setItem("produit",JSON.stringify(produitEnregistre));
-        }})
-        //s'il y a un produit dans le localStorage
+        })
+        const ajoutMemeProduitLocalStorage = (() =>{             
+                
+                
+                qtyProduitLocal = qtyProduitLocal + infoProduit.qtyProduit
+        })
+        //s'il y a un produit dans le localStorage dont l'id est déjà présente
         if (produitEnregistre){
-                ajoutProduitLocalStorage();
-        }
+                        ajoutProduitLocalStorage();
+                }
         //s'il n'y a pas de produit dans le localStorage
         else {
                 produitEnregistre =[];
@@ -85,4 +92,5 @@ fetch(`http://localhost:3000/api/teddies/${id}`) //méthode fetch pour récupér
 .catch(error => {
         contain_product.innerHTML += `<p class="error">Nous somme désolé, le produit ne semble pas s'afficher, veuillez actualiser</p>`;
 }))
+
 accueil.innerHTML = `<a href="../../index.html"><h1>Oribear</h1></a>`;
