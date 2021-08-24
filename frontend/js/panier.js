@@ -35,7 +35,6 @@ else{
             <td id="productsId">${panier[produits].idProduit}</div></td>
             <td>${panier[produits].qtyProduit}</td>
             <td>${panier[produits].prixTotal /100}€</td>
-            <td><button onclick="deleteItem('${panier[produits].idProduit}')">&#x274C;</button></td>
             `
     }
     //calcul du total
@@ -52,10 +51,5 @@ for (let n=0; n<panier.length; n++) {
     `
     document.getElementById('tableau_panier').innerHTML = tableauPanier
 }
-//Fonction qui supprime la ligne de produit lors du clique sur le bouton
-function deleteItem(idToRemove){
-    delete panier[idToRemove]
-    localStorage.setItem("panier", JSON.stringify(panier))
-    location.reload()
-};
 
+//
