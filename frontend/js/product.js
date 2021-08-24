@@ -37,6 +37,7 @@ fetch(`http://localhost:3000/api/teddies/${id}`) //méthode fetch pour récupér
     `;
     //titre onglet dynamique selon le produit
     title.innerText = `Oribear_${data.name}`;
+    //bordure aux couleurs choisies pour l'ours
     let select = document.querySelector("#option select");
     let color = document.querySelector("#option select").options[select.selectedIndex].value;
         select.style.borderColor = color;
@@ -44,12 +45,13 @@ fetch(`http://localhost:3000/api/teddies/${id}`) //méthode fetch pour récupér
         let color = document.querySelector("#option select").options[select.selectedIndex].value;
         select.style.borderColor = color;
     })
-
+//envoie de la quantité "on change" d'input
     let inputQty = document.querySelector("#option input");
     let qty = 1;
     inputQty.addEventListener("change",(event) => {
         qty = parseFloat(inputQty.value);
     })
+    //ecoute d'evenment au clic qui stock dans une variable les infos produits
     let envoiePanier = document.querySelector(".card_product__price a");
     let ajout = document.querySelector(".success");
     envoiePanier.addEventListener("click", (e) => {
@@ -65,13 +67,14 @@ fetch(`http://localhost:3000/api/teddies/${id}`) //méthode fetch pour récupér
         //message de confirmation d'ajout au panier
         ajout.innerText = "Votre article a bien été ajouté au panier";
         setTimeout(()=>{ajout.innerText = ""},3000);
-        //ajout de l'item du localStorage "obj" dans une variable "produit"
+        //récupération et conversion en objet JS de la clé produit du local storage
         let produitEnregistre = JSON.parse(localStorage.getItem("produit"));
         //fonction pour ajouter les elements d'infoProduit dans le local storage
         const ajoutProduitLocalStorage = (() =>{               
-                produitEnregistre.push(infoProduit);
-                localStorage.setItem("produit",JSON.stringify(produitEnregistre));
+                produitEnregistre.push(infoProduit);//push de la variable infoProduit dans le tableau produitEnregistre
+                localStorage.setItem("produit",JSON.stringify(produitEnregistre));//conversion de l'objet javascript en string Json pour le local storage
         })
+        //boucle pour lire tous les id et quantité présentes en local storage
         let localId = "";
         let localQty = 1;
         for (let i=0; i<produitEnregistre.length; i+=1){
@@ -80,13 +83,14 @@ fetch(`http://localhost:3000/api/teddies/${id}`) //méthode fetch pour récupér
         }
         console.log(localId)
         console.log(localQty)
+        //fonction pour mettre à jour la quantité d'une id
         const ajoutMemeProduitLocalStorage = (() =>{                     
                 localQty += infoProduit.qtyProduit
         })
         //s'il y a un produit dans le localStorage dont l'id est déjà présente
         if(infoProduit.idProduit == localId){
                 ajoutMemeProduitLocalStorage()
-        }
+        }//s'il y a un produit dans le localStorage dont l'id n'est pas déjà présente
         else if (infoProduit.idProduit != localid){
                         ajoutProduitLocalStorage();
                 }
