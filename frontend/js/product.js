@@ -72,13 +72,22 @@ fetch(`http://localhost:3000/api/teddies/${id}`) //méthode fetch pour récupér
                 produitEnregistre.push(infoProduit);
                 localStorage.setItem("produit",JSON.stringify(produitEnregistre));
         })
-        const ajoutMemeProduitLocalStorage = (() =>{             
-                
-                
-                qtyProduitLocal = qtyProduitLocal + infoProduit.qtyProduit
+        let localId = "";
+        let localQty = 1;
+        for (let i=0; i<produitEnregistre.length; i+=1){
+                localId = produitEnregistre[i].idProduit;
+                localQty = produitEnregistre[i].qtyProduit;
+        }
+        console.log(localId)
+        console.log(localQty)
+        const ajoutMemeProduitLocalStorage = (() =>{                     
+                localQty += infoProduit.qtyProduit
         })
         //s'il y a un produit dans le localStorage dont l'id est déjà présente
-        if (produitEnregistre){
+        if(infoProduit.idProduit == localId){
+                ajoutMemeProduitLocalStorage()
+        }
+        else if (infoProduit.idProduit != localid){
                         ajoutProduitLocalStorage();
                 }
         //s'il n'y a pas de produit dans le localStorage
