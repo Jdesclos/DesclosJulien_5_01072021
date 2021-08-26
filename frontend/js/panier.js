@@ -5,14 +5,15 @@ let resume = document.querySelector('#resume');
 let panier = JSON.parse(localStorage.getItem('produit'));
 let prixArticle = 0;
 //si panier est vide
-if (panier ==='{}' || panier === null){
+console.log(panier.length)
+if (panier === null || panier.length == 0){
     let tableauPanier = 
     `
     <tr>
-        <p>Votre panier est vide !</p>
+        <p>Votre panier est vide, revenez une fois celui-ci rempli</p>
     </tr>
     `
-    document.getElementById('tableau_Panier').innerHTML = tableauPanier;
+    document.getElementById('tableau_panier').innerHTML = tableauPanier;
 }
 // si il y a des produits dans le panier
 else{
@@ -35,21 +36,27 @@ else{
             <td id="productsId" style="display:none">${panier[produits].idProduit}</div></td>
             <td>${panier[produits].qtyProduit}</td>
             <td>${panier[produits].prixProduit}€</td>
-            <td align="right">${panier[produits].prixTotal /100}€</td>
+            <td align="right">${panier[produits].prixTotal}€</td>
+            <td align="right"><button class="btn-supprimer"><i class="fas fa-times"></i></button></td></tr></>
             `
     }
     //calcul du total
     let  total = 0;
 for (let n=0; n<panier.length; n++) {
-    total += panier[n].prixTotal /100;
+    total += panier[n].prixTotal;
+    localStorage.setItem("total", total)
 }
     tableauPanier += 
     `
     <tr>
-        <td id="priceTotal" colspan="5" align="right"><strong>${total} €</strong></td>
+        <td id="priceTotal" colspan="4" align="right"><strong>${total} €</strong></td>
     </tr>
     `
     document.getElementById('tableau_panier').innerHTML = tableauPanier
+}
+let small = document.querySelector('fieldset small');
+function vanish () {
+    setTimeout(()=>{small.innerText = ""},3000);
 }
 //vérification du champ email
 let email = document.querySelector('#email');
@@ -59,13 +66,12 @@ email.addEventListener('change',function (){
 const validEmail = function (inputEmail){
     //création regExp
     let emailRegExp = new RegExp(
-        '/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/'
+        '[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$'
         );
     let testEmail = emailRegExp.test(inputEmail.value);
-    let small = document.querySelector('fieldset small');
     if (!testEmail){
         small.innerHTML = 'Adresse mail invalide';
-        setTimeout(()=>{small.innerText = ""},3000);
+        vanish();
     }
 };
 //vérification du champ prénom
@@ -79,10 +85,9 @@ const validFirstName = function (inputFirstName){
         '^[A-Z][a-z]*$'
         );
     let testFirstName= firstNameRegExp.test(inputFirstName.value);
-    let small = document.querySelector('fieldset small');
     if (!testFirstName){
         small.innerHTML = 'Ecrivez votre prénom en respectant ce format "Prénom"';
-        setTimeout(()=>{small.innerText = ""},3000);
+        vanish();
     }
 };
 //vérification du champ nom
@@ -96,27 +101,25 @@ const validLastName = function (inputLastName){
         '^[A-Z][a-z]*$'
         );
     let testLastName= lastNameRegExp.test(inputLastName.value);
-    let small = document.querySelector('fieldset small');
     if (!testLastName){
         small.innerHTML = 'Ecrivez votre Nom en respectant ce format "Nom"';
-        setTimeout(()=>{small.innerText = ""},3000);
+        vanish();
     }
 };
 //vérification du champ addresse
 let address = document.querySelector('#address');
 address.addEventListener('change',function (){
-    validAdress(this);
+    validAddress(this);
 });
-const validAdress = function (inputAdress){
+const validAddress = function (inputAdress){
     //création regExp
     let AdressRegExp = new RegExp(
         '[a-zA-Z]{1,100}'
         );
     let testAddress = AdressRegExp.test(inputAdress.value);
-    let small = document.querySelector('fieldset small');
     if (!testAddress){
         small.innerText = 'Adresse invalide';
-        setTimeout(()=>{small.innerText = ""},3000);
+        vanish();
     }
 };
 //vérification du champ ville
@@ -130,10 +133,9 @@ const validCity = function (inputCity){
         '[a-zA-Z]{1,10}'
         );
     let testCity = cityRegExp.test(inputCity.value);
-    let small = document.querySelector('fieldset small');
     if (!testCity){
         small.innerText = 'Ville invalide';
-        setTimeout(()=>{small.innerText = ""},3000);
+        vanish();
     }
 };
 //Fonction qui valide le formulaire et l'envoi, via la méthode POST, au serveur afin d'avoir une réponse
@@ -164,15 +166,16 @@ function valid(){
       }
       
       fetch('http://localhost:3000/api/teddies/order', options)
-          .then(res => res.json())
+          .then(res => res.json())//conversion en JSON
           .then(res => { 
             if (res.orderId) {
               alert(`Votre commande numéro ${res.orderId} à bien été passée.`)
               localStorage.setItem("orderId", res.orderId)
               localStorage.setItem("firstName", res.contact.firstName)
-              window.location = `/frontend/view/menu/confirmation.html`
+              window.location = `confirmation.html`
             } else {
-              alert(`Erreur de commande`)
+                small.innerText = 'Formulaire de contact mal rampli ou panier vide';
+                vanish();
             }
           });
     }
@@ -184,7 +187,18 @@ function valid(){
 
   }
 let send = document.getElementById("validCommand");
+
 send.addEventListener("click",(event) => {
     event.preventDefault;
     valid();
 })
+    //méthode filter qui supprime l'élément lors du clic sur la croix
+    let del = document.querySelectorAll(".btn-supprimer");
+    for (let i = 0; i < del.length; i++) {
+        del[i].addEventListener("click",(e) => {
+            e.preventDefault();
+            panier.splice(i, 1);
+            localStorage.setItem("produit",JSON.stringify(panier));
+            window.location.reload();
+        })
+    }
