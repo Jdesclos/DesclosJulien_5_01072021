@@ -24,3 +24,4 @@ fetch('http://localhost:3000/api/teddies') //méthode fetch pour récupérer l'a
 .catch(error => {
         contain.innerHTML += `<p class="error">Nous somme désolé, les produits ne semblent pas s'afficher, veuillez actualiser</p>`;
 })
+BasketTopRight();
