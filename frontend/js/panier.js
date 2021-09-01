@@ -1,11 +1,12 @@
 let accueil = document.querySelector('header a');
 accueil.innerHTML = `<a href="../../index.html"><h1>Oribear</h1></a>`;
+let lienPanier = document.querySelector('#panier');
 let resume = document.querySelector('#resume');
+let nombreArticle = 0;
 //récupération et conversion en objet JS de la clé produit du local storage
 let panier = JSON.parse(localStorage.getItem('produit'));
 let prixArticle = 0;
 //si panier est vide
-console.log(panier.length)
 if (panier === null || panier.length == 0){
     let tableauPanier = 
     `
@@ -14,6 +15,9 @@ if (panier === null || panier.length == 0){
     </tr>
     `
     document.getElementById('tableau_panier').innerHTML = tableauPanier;
+    nombreArticle =0;
+    localStorage.setItem("nombreArticle", nombreArticle)
+
 }
 // si il y a des produits dans le panier
 else{
@@ -34,18 +38,35 @@ else{
         <tr>
             <td>${panier[produits].nomProduit}</td>
             <td id="productsId" style="display:none">${panier[produits].idProduit}</div></td>
-            <td>${panier[produits].qtyProduit}</td>
+            <td><input type="number" name="quantite" value="${panier[produits].qtyProduit}"></td>
             <td>${panier[produits].prixProduit}€</td>
             <td align="right">${panier[produits].prixTotal}€</td>
             <td align="right"><button class="btn-supprimer"><i class="fas fa-times"></i></button></td></tr></>
             `
     }
-    //calcul du total
+
+    //calcul du total prix du panier
     let  total = 0;
+
 for (let n=0; n<panier.length; n++) {
     total += panier[n].prixTotal;
     localStorage.setItem("total", total)
 }
+        //calcul du nombres d'articles
+    
+for (let a=0; a<panier.length; a++){
+    if(panier.lenght == 0){
+        nombreArticle = 0;
+        localStorage.setItem("nombreArticle", nombreArticle)
+    }
+    else{
+    nombreArticle += parseFloat(panier[a].qtyProduit);
+    localStorage.setItem("nombreArticle", nombreArticle)
+    }
+}
+//affichage du panier
+let quantiteTotal = JSON.parse(localStorage.getItem('nombreArticle'));
+    lienPanier.innerText += ` (${quantiteTotal})`;
     tableauPanier += 
     `
     <tr>
@@ -199,6 +220,36 @@ send.addEventListener("click",(event) => {
             e.preventDefault();
             panier.splice(i, 1);
             localStorage.setItem("produit",JSON.stringify(panier));
-            window.location.reload();
+            window.location.reload();//La méthode Location.reload() recharge la ressource depuis l'URL actuelle.
         })
     }
+        //changer la quantité sur la page panier
+        let input = document.querySelectorAll('input[type=number]')
+        let nouvelleQuantite=1;
+        for (let c=0; c<input.length;c++){
+            input[c].addEventListener("change",(e)=>{
+                nouvelleQuantite = input[c].value;
+                let nouvellesinfos ={
+                    nomProduit : panier[c].nomProduit,
+                    idProduit : panier[c].idProduit,
+                    prixProduit:panier[c].prixProduit,
+                    qtyProduit : nouvelleQuantite,
+                    prixTotal :(panier[c].prixProduit) * nouvelleQuantite,
+                };
+                if(nouvelleQuantite == 0){
+                    panier.splice(c, 1);
+                localStorage.setItem("produit",JSON.stringify(panier));
+                window.location.reload();//La méthode Location.reload() recharge la ressource depuis l'URL actuelle.
+                }
+                else{
+                    panier.splice(c,1);
+                    panier.push(nouvellesinfos);
+                    localStorage.setItem("produit",JSON.stringify(panier));
+                    window.location.reload();//La méthode Location.reload() recharge la ressource depuis l'URL actuelle.
+                }
+           
+            
+            })
+        }
+
+        

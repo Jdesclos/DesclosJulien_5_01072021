@@ -2,12 +2,14 @@
     "name": "orinoco-frontend",
     "version": "1.0.0",
     "description": "",
-    "scripts":{  "sass": "sass --watch sass/main.scss:public/css/style.css --style compressed ",
-"prefix": "postcss public/css/style.css --use autoprefixer -d public/css/prefixed/"
+    "scripts": {
+        "sass": "sass --watch sass/main.scss:public/css/style.css --style compressed ",
+        "prefix": "postcss public/css/style.css --use autoprefixer -d public/css/prefixed/"
     },
-"author": "",
-"browserslist": "last 4 versions",
-"license": "ISC",
-"dependencies": {
-}
+    "author": "",
+    "browserslist": "last 4 versions",
+    "license": "ISC",
+    "dependencies": {
+        "sass": "^1.38.2"
+    }
 }

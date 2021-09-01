@@ -47,6 +47,7 @@ fetch(`http://localhost:3000/api/teddies/${id}`) //méthode fetch pour récupér
     })
 //envoie de la quantité "on change" d'input
     let inputQty = document.querySelector("#option input");
+    console.log(inputQty)
     let qty = 1;
     inputQty.addEventListener("change",(event) => {
         qty = parseFloat(inputQty.value);
