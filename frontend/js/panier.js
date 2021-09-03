@@ -12,8 +12,6 @@ if (panier === null || panier.length == 0){
     </tr>
     `
     document.getElementById('tableau_panier').innerHTML = tableauPanier;
-    nombreArticle =0;
-    localStorage.setItem("nombreArticle", nombreArticle)
 
 }
 // si il y a des produits dans le panier
@@ -48,14 +46,13 @@ else{
     tableauPanier += 
     `
     <tr>
-        <td id="priceTotal" colspan="4" align="right"><strong>${total} €</strong></td>
+        <td id="priceTotal" colspan="4" align="right"><strong id="prixPanier">${total} €</strong></td>
     </tr>
     `
     document.getElementById('tableau_panier').innerHTML = tableauPanier
 }
 let small = document.querySelector('fieldset small');
 
-let nombreArticle = updateQuantityBasket();
 
 
 
@@ -81,9 +78,9 @@ sendToBackend();
     deleteLigne();
         //changer la quantité sur la page panier
         newQuantityBasket(); 
+        removePrixTotal()
 
+
+
+        let nombreArticle = updateQuantityBasket();
         BasketTopRight();
-
-
-
-

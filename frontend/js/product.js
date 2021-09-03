@@ -49,5 +49,4 @@ fetch(`http://localhost:3000/api/teddies/${id}`) //méthode fetch pour récupér
         contain_product.innerHTML += `<p class="error">Nous somme désolé, le produit ne semble pas s'afficher, veuillez actualiser</p>`;
 }))
 homeAllPage();
-
 BasketTopRight();
