@@ -67,7 +67,7 @@ function prixPanier() {
 function BasketTopRight() {
     let lienPanier = document.querySelector('#panier');
     let quantiteTotal = JSON.parse(localStorage.getItem('nombreArticle'));
-    if(quantiteTotal != null){lienPanier.innerText = `Panier (${quantiteTotal})`;} else {lienPanier.innerText += (0)}
+    if(quantiteTotal != null){lienPanier.innerText = `Panier (${quantiteTotal})`;} else {lienPanier.innerText ="Panier (0)"}
 }
 //calcul la quantite total de produit du panier sur la page panier
 function updateQuantityBasket() {
@@ -223,7 +223,7 @@ function valid() {
                 "Content-Type": "application/json"//on précise le type de contenu envoyé
             }
         };
-        fetch('http://localhost:3000/api/teddies/order', options)
+        fetch('http://localhost:3000/api/teddies/order', options)//accède à l'api avec options en paramètre, ce qui permet de donner au serveur les infos er avoir la réponse attendue
             .then(res => res.json())
             .then(res => {
                 if (res.orderId) {
