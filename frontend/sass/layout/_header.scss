@@ -2,6 +2,9 @@
   @include flex_row;
   justify-content: space-between;
   align-items: center;
+  @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+    @include flex_column;
+  }
   &__title > a,
   h1 {
     font-family: 'Pacifico', cursive;

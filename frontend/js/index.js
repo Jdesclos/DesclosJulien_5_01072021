@@ -1,10 +1,10 @@
 let contain = document.querySelector(".contain");//Création d'un variable qui récupère la classe .contain
 fetch('http://localhost:3000/api/teddies') //méthode fetch pour récupérer l'api
-.then(response => response.json()//conversion en json de la réponse 
+.then(response => response.json()//conversion en json de la réponse
 .then((data) => {
     //Création de contenu pour chaque élément du tableau de data
-    data.forEach(element =>{        
-        contain.innerHTML += 
+    data.forEach(element =>{
+        contain.innerHTML +=
         `
         <div class="card">
             <a href="frontend/pages/produit.html?id=${element._id}">

@@ -7,10 +7,10 @@ fetch(`http://localhost:3000/api/teddies/${id}`) //méthode fetch pour récupér
 .then (data =>{
         let colors = ""
         data.colors.forEach(element => {//Pour  chaque élément de data.colors on ajoute :
-        colors += `<option value="${element}">${element}</option>` 
+        colors += `<option value="${element}">${element}</option>`
         });
-   contain_product.innerHTML += 
-    `    
+contain_product.innerHTML +=
+    `
     <div class="card_product">
             <div class="card_product__img"><img src=${data.imageUrl} width="400px" height="266px"></div>
             <div class="card_product__caption">
@@ -22,7 +22,7 @@ fetch(`http://localhost:3000/api/teddies/${id}`) //méthode fetch pour récupér
                         </select>
                         <input type="number" name="qty" value="1">
                 </div>
-            </div>           
+            </div>
                 <div class="card_product__price">
                         <a href="#">
                                 <i class="fas fa-shopping-cart"></i>
@@ -35,15 +35,9 @@ fetch(`http://localhost:3000/api/teddies/${id}`) //méthode fetch pour récupér
     <div class="success"></div>
     `;
     //titre onglet dynamique selon le produit
-    title.innerText = `Oribear_${data.name}`;
-    //bordure aux couleurs choisies pour l'ours
-    borderColor();
-//envoie de la quantité "on change" d'input
-
-
-    //ecoute d'evenment au clic qui stock dans une variable les infos produits
-    addDataInVar(data);
-
+title.innerText = `Oribear_${data.name}`;
+borderColor();
+addDataInVar(data);
 })
 .catch(error => {
         contain_product.innerHTML += `<p class="error">Nous somme désolé, le produit ne semble pas s'afficher, veuillez actualiser</p>`;

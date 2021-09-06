@@ -2,6 +2,12 @@
   display: flex;
   flex-wrap: wrap;
   padding: 2rem 1.5rem;
+  @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+    justify-content: center;
+  }
+  @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+    align-items: center;
+  }
   & .error {
     color: red;
     font-size: map-get($map: $font_size, $key: card_title);
@@ -9,6 +15,10 @@
     width: 100%;
   }
   & .card {
+    @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+      margin: 0px 0px 25px;
+      width: 100%;
+    }
     @include flex_column;
     max-width: 410px;
     margin: 20px;
@@ -22,6 +32,9 @@
     &__img {
       width: 410px;
       height: 265px;
+      @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+        width: 100%;
+      }
       & img {
         object-fit: cover;
         width: 100%;

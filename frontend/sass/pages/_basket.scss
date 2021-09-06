@@ -4,6 +4,12 @@ section {
   align-items: center;
   justify-content: space-between;
   padding: 3rem;
+  @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+    padding: 0px 25px;
+  }
+  @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+    @include flex_column;
+  }
   & #tableau_panier {
     background-color: white;
     width: 50%;
@@ -12,10 +18,19 @@ section {
     border-spacing: 3rem;
     text-align: center;
     box-shadow: 0px 0px 5px #dcdcdc;
-    & [name=quantite]{
+    @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+      width: 100%;
+      border-spacing: 1rem;
+      margin-bottom: 25px;
+    }
+    @media only screen and (min-device-width: 481px) and (max-device-width: 1024px) {
+      border-spacing: 2rem;
+      margin-right: 25px;
+    }
+    & [name='quantite'] {
       width: 3rem;
       text-align: center;
-  }
+    }
   }
   & fieldset {
     width: 40%;
@@ -24,6 +39,10 @@ section {
     box-shadow: 0px 0px 5px #dcdcdc;
     background-color: white;
     border-radius: 25px;
+    @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+      width: 100%;
+      margin-bottom: 25px;
+    }
     & input {
       margin: 10px 0px;
     }
