@@ -20,7 +20,7 @@ contain_product.innerHTML +=
                         <select id="colors" name="couleur" form="colorform">
                                 ${colors}
                         </select>
-                        <input type="number" name="qty" value="1">
+                        <input type="number" name="qty" value="1" min="1">
                 </div>
             </div>
                 <div class="card_product__price">

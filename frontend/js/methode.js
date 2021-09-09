@@ -20,8 +20,8 @@ function newQuantityBasket() {//fonction pour mettre les quantité à jour avec 
                 removePrixTotal()
             }
             else {
-                panier.splice(c, 1);
-                panier.push(nouvellesinfos);
+                panier[c].qtyProduit = nouvelleQuantite;
+                console.log(panier[c].qtyProduit);
                 localStorage.setItem("produit", JSON.stringify(panier));//sinon on envoie les novelles infos au localStorage
                 updateQuantityBasket();
                 BasketTopRight();
@@ -72,15 +72,14 @@ function BasketTopRight() {
 //calcul la quantite total de produit du panier sur la page panier
 function updateQuantityBasket() {
     let nombreArticle = 0;
-    console.log(panier)
     if(panier.length == 0){
         nombreArticle = 0;
         localStorage.setItem("nombreArticle", nombreArticle);
     }
     else
     {for (let a = 0; a < panier.length; a++) {
-            nombreArticle += parseFloat(panier[a].qtyProduit);
-            localStorage.setItem("nombreArticle", nombreArticle);
+        nombreArticle += parseFloat(panier[a].qtyProduit);
+        localStorage.setItem("nombreArticle", nombreArticle);
     }}
     return nombreArticle;
 }
@@ -96,8 +95,8 @@ function updateQuantityBasketHomeProduct() {
     else
     {for (let a = 0; a < produitEnregistre.length; a++) {
         console.log(produitEnregistre[a].qtyProduit)
-            nombreArticle += parseFloat(produitEnregistre[a].qtyProduit);
-            localStorage.setItem("nombreArticle", nombreArticle);
+        nombreArticle += parseFloat(produitEnregistre[a].qtyProduit);
+        localStorage.setItem("nombreArticle", nombreArticle);
     }}
     console.log(nombreArticle)
     return nombreArticle;
@@ -334,4 +333,18 @@ function removePrixTotal(){
         `
         document.getElementById('tableau_panier').innerHTML = tableauPanier;
     }
+}
+function afficherProduit() {
+	for (produits in panier) {
+		tableauPanier +=
+			`
+		<tr>
+			<td>${panier[produits].nomProduit}</td>
+			<td id="productsId" style="display:none">${panier[produits].idProduit}</div></td>
+			<td><input type="number" name="quantite" value="${panier[produits].qtyProduit}" min="0"></td>
+			<td>${panier[produits].prixProduit}€</td>
+			<td align="right">${panier[produits].prixTotal}€</td>
+			<td align="right"><button class="btn-supprimer"><i class="fas fa-times"></i></button></td></tr></>
+			`;
+	}
 }

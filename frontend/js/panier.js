@@ -26,18 +26,7 @@ else{
 	</tr>
 	`
 	//boucle pour créer autant d'éléments qu'il y a de lignes dans le local storage
-	for(produits in panier){
-		tableauPanier +=
-		`
-		<tr>
-			<td>${panier[produits].nomProduit}</td>
-			<td id="productsId" style="display:none">${panier[produits].idProduit}</div></td>
-			<td><input type="number" name="quantite" value="${panier[produits].qtyProduit}"></td>
-			<td>${panier[produits].prixProduit}€</td>
-			<td align="right">${panier[produits].prixTotal}€</td>
-			<td align="right"><button class="btn-supprimer"><i class="fas fa-times"></i></button></td></tr></>
-			`
-	}
+	afficherProduit();
 	//calcul du total prix du panier
 	let total = prixPanier();
 //affichage du panier
@@ -50,6 +39,8 @@ else{
 	document.getElementById('tableau_panier').innerHTML = tableauPanier
 }
 let small = document.querySelector('fieldset small');
+
+
 function vanish () {
 	setTimeout(()=>{small.innerText = ""},3000);
 }
