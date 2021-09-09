@@ -28,17 +28,11 @@ else{
 	//boucle pour créer autant d'éléments qu'il y a de lignes dans le local storage
 	afficherProduit();
 	//calcul du total prix du panier
-	let total = prixPanier();
-//affichage du panier
-	tableauPanier +=
-	`
-	<tr>
-		<td id="priceTotal" colspan="4" align="right"><strong id="prixPanier">${total} €</strong></td>
-	</tr>
-	`
-	document.getElementById('tableau_panier').innerHTML = tableauPanier
+	totalDuPanier();
 }
 let small = document.querySelector('fieldset small');
+
+
 
 
 function vanish () {

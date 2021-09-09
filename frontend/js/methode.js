@@ -4,13 +4,6 @@ function newQuantityBasket() {//fonction pour mettre les quantité à jour avec 
     for (let c = 0; c < input.length; c++) {
         input[c].addEventListener("change", (e) => {//écoute le changement sur l'input
             nouvelleQuantite = input[c].value;//nouvelle quantite = valeur de l'input
-            let nouvellesinfos = {
-                nomProduit: panier[c].nomProduit,
-                idProduit: panier[c].idProduit,//on stock les infos produits à la valeur c du tableau panier dans une variable avec la nouvelle quantite
-                prixProduit: panier[c].prixProduit,
-                qtyProduit: nouvelleQuantite,
-                prixTotal: (panier[c].prixProduit) * nouvelleQuantite,
-            };
             if (nouvelleQuantite <= 0) {
                 panier.splice(c, 1);
                 localStorage.setItem("produit", JSON.stringify(panier));// si l'utilisateur met une input à 0 alors ça efface la ligne ainsi que le produit concerné dans le local storage
@@ -18,15 +11,29 @@ function newQuantityBasket() {//fonction pour mettre les quantité à jour avec 
                 updateQuantityBasket();
                 BasketTopRight();
                 removePrixTotal()
+                nouveauPrix();
+                prixPanier();
             }
             else {
                 panier[c].qtyProduit = nouvelleQuantite;
-                console.log(panier[c].qtyProduit);
                 localStorage.setItem("produit", JSON.stringify(panier));//sinon on envoie les novelles infos au localStorage
                 updateQuantityBasket();
                 BasketTopRight();
+                nouveauPrix();
+                prixPanier();
             }
         });
+    }
+}
+//fonction pour mettre à jour le prix total par article
+function nouveauPrix(){
+    let nouveauPrix = 0;
+    for (let p=0; p < panier.length; p++){
+        nouveauPrix = panier[p].prixProduit * panier[p].qtyProduit;
+        panier[p].prixTotal = nouveauPrix;
+        localStorage.setItem("produit", JSON.stringify(panier));
+        let price = document.querySelector('#item_'+p);
+        price.innerText = `${panier[p].prixTotal}`;
     }
 }
 //fonction pour enlever un produit du panier
@@ -45,21 +52,23 @@ function deleteLigne() {
                 removePrixTotal();
             }
             else {
-                nombreArticle += parseFloat(panier[i].qtyProduit);
-                localStorage.setItem("nombreArticle", nombreArticle);//si il en reste alors on met à jour la quantité de produits du panier
                 del[i].parentNode.parentNode.remove();
-                removePrixTotal();
             }
+            updateQuantityBasket();
             BasketTopRight();
+            prixPanier();
         });
     }
 }
 //calcul le prix total du panier
 function prixPanier() {
-    let total = 0;
+    let total = localStorage.getItem('total');
+    total =0 ;
+    let priceTotal = document.querySelector('#priceTotal');
     for (let n = 0; n < panier.length; n++) {
         total += panier[n].prixTotal;
         localStorage.setItem("total", total);
+        priceTotal.innerText = `${total} €`
     }
     return total;
 }
@@ -98,7 +107,6 @@ function updateQuantityBasketHomeProduct() {
         nombreArticle += parseFloat(produitEnregistre[a].qtyProduit);
         localStorage.setItem("nombreArticle", nombreArticle);
     }}
-    console.log(nombreArticle)
     return nombreArticle;
 }
 //vérifie et valide l'input de la ville
@@ -335,16 +343,29 @@ function removePrixTotal(){
     }
 }
 function afficherProduit() {
+    let i=0;
 	for (produits in panier) {
 		tableauPanier +=
 			`
-		<tr>
+		    <tr>
 			<td>${panier[produits].nomProduit}</td>
 			<td id="productsId" style="display:none">${panier[produits].idProduit}</div></td>
 			<td><input type="number" name="quantite" value="${panier[produits].qtyProduit}" min="0"></td>
 			<td>${panier[produits].prixProduit}€</td>
-			<td align="right">${panier[produits].prixTotal}€</td>
+			<td align="right" class="prixTotal" id="item_${i}">${panier[produits].prixTotal}€</td>
 			<td align="right"><button class="btn-supprimer"><i class="fas fa-times"></i></button></td></tr></>
 			`;
+            i++;
 	}
+}
+function totalDuPanier() {
+    let totalLocal = localStorage.getItem('total')
+	//affichage du panier
+	tableauPanier +=
+		`
+	<tr>
+		<td id="priceTotal" colspan="4" align="right"><strong id="prixPanier">${totalLocal} €</strong></td>
+	</tr>
+	`;
+	document.getElementById('tableau_panier').innerHTML = tableauPanier;
 }
