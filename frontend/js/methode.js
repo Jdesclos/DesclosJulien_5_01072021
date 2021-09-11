@@ -42,21 +42,22 @@ function deleteLigne() {
     for (let i = 0; i < del.length; i++) {
         del[i].addEventListener("click", (e) => {
             e.preventDefault();
-            panier.splice(i, 1);//efface la clé i
-            localStorage.setItem("produit", JSON.stringify(panier));
-            del[i].parentNode.parentNode.remove();
             if (panier.length == 0) {
                 nombreArticle = 0;
                 localStorage.setItem("nombreArticle", nombreArticle);//si il n'y  a plus d'article dans le panier
                 del[i].parentNode.parentNode.remove();
+                prixPanier();
                 removePrixTotal();
             }
             else {
+                panier.splice(i, 1);//efface la clé i
                 del[i].parentNode.parentNode.remove();
             }
             updateQuantityBasket();
             BasketTopRight();
             prixPanier();
+            localStorage.setItem("produit", JSON.stringify(panier));
+            location.reload();
         });
     }
 }
@@ -353,7 +354,7 @@ function afficherProduit() {
 			<td><input type="number" name="quantite" value="${panier[produits].qtyProduit}" min="0"></td>
 			<td>${panier[produits].prixProduit}€</td>
 			<td align="right" class="prixTotal" id="item_${i}">${panier[produits].prixTotal}€</td>
-			<td align="right"><button class="btn-supprimer"><i class="fas fa-times"></i></button></td></tr></>
+			<td align="right"><button id="del_${i}" class="btn-supprimer"><i class="fas fa-times"></i></button></td></tr></>
 			`;
             i++;
 	}
